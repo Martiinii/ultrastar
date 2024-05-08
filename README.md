@@ -1,13 +1,24 @@
-# Turborepo starter
+# UltraStar scrapper
 
-This is an official starter Turborepo.
+This is a WIP project to build UltraStar songs scrapper from [probably the biggest song database](https://usdb.animux.de).
+I've done a [similar project](https://github.com/Martiinii/UltraScrap-cli) in past but I've always had a bigger idea for it and I finally have time and desire to do so.
 
-## Using this example
+## Code structure
 
-Run the following command:
+This project is using **bun** as package manager alongside **turborepo**.
+Packages can be found in `/packages` directory with the most notable being `ultrastar-api`.
+
+In future there will be **Next.js** app under `/apps`
+
+## How to run this application?
+
+First, let's start with creating an account on [usdb.animux.de](https://usdb.animux.de). Go ahead and register a new account and save the credentials into `.env` file.
+
+Currently there is no easy way to run application as it is being actively developed.
+You can however run library (and all other apps - _currently none_) with:
 
 ```sh
-npx create-turbo@latest
+bun i && bun dev
 ```
 
 ## What's inside?
@@ -16,38 +27,31 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+- `@repo/tsconfig`: `tsconfig.json`s used throughout the monorepo
+- `@repo/ultrastar-api`: Scrapper API to be used by web app
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
 
 ### Build
 
 To build all apps and packages, run the following command:
 
-```
-cd my-turborepo
-pnpm build
+```sh
+bun build
 ```
 
 ### Develop
 
 To develop all apps and packages, run the following command:
 
+```sh
+bun dev
 ```
-cd my-turborepo
-pnpm dev
+
+Or to watch for changes:
+
+```sh
+bun watch
 ```
 
 ### Remote Caching
@@ -56,8 +60,8 @@ Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo
 
 By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
 
-```
-cd my-turborepo
+```sh
+cd ultrastar
 npx turbo login
 ```
 
