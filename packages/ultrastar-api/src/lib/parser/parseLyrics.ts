@@ -1,4 +1,7 @@
-export const parseLyrics = (text: string) => {
+export const parseLyrics = (html: string) => {
+  const text = html.match(/<textarea.*?>([\s\S]*)<\/textarea>/m)?.[1];
+  if (!text) return null;
+
   const headersRaw = [...text.matchAll(/^#(.*:.*)$/gm)];
   const headers: SongHeaders = new Map();
 
