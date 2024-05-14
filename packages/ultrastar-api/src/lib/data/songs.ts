@@ -1,19 +1,16 @@
 import { parseSongsFromSearch } from "../parser/parseSongsFromSearch";
 import { scrapSearchPage } from "../scrapper/searchPage";
 
-export const getAllSongs = async () => {
-  const songs: Song[] = [];
+export const songGenerator = async function* () {
   const firstPage = await getSongsFromPage(1);
-  songs.push(...firstPage.songs);
+  yield firstPage;
 
   const totalPages = firstPage.totalPages;
 
   for (let i = 2; i < totalPages; i++) {
     const page = await getSongsFromPage(i);
-    songs.push(...page.songs);
+    yield page;
   }
-
-  return songs;
 };
 
 export const getSongsFromPage = async (page: number) => {
