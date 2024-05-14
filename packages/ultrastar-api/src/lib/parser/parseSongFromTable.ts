@@ -1,21 +1,23 @@
-export const parseSongFromTable = (song: string | undefined): Song | null => {
-  if (!song) return null;
+export const parseSongFromTable = (html: string | undefined): Song | null => {
+  if (!html) return null;
 
-  const songId = song.match(/show_detail\((\d+)\)/)?.[1];
+  const songId = Number.parseInt(
+    html.match(/show_detail\((\d+)\)/)?.[1] ?? "-1"
+  );
   const songMetadata = [
-    ...song.matchAll(/<td\s+.*?>(?:<a.*?>)?(.*)<\/td>/gm),
+    ...html.matchAll(/<td\s+.*?>(?:<a.*?>)?(.*)<\/td>/gm),
   ].map((m) => m?.[1]);
 
   const artist = songMetadata?.[0];
   const title = songMetadata?.[1];
-  const language = songMetadata?.[4];
+  const languages = songMetadata?.[4]?.toLowerCase().split(", ");
 
-  if (!songId || !artist || !title || !language) return null;
+  if (!songId || !artist || !title || !languages) return null;
 
   return {
     id: songId,
     artist,
     title,
-    language,
+    languages,
   };
 };

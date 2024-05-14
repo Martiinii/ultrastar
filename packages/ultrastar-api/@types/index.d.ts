@@ -22,10 +22,10 @@ type Metadata = {
 };
 
 type Song = {
-  id: string;
+  id: number;
   artist: string;
   title: string;
-  language: string;
+  languages: string[];
 };
 
 type Page = {
