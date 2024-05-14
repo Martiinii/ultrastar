@@ -1,12 +1,12 @@
+import { getYoutubeLinksById } from "./lib/data/youtubeLinks";
 import { refreshLoginCookie } from "./lib/login/login";
 
 await refreshLoginCookie();
 
 const main = async () => {
-  //   const eminemLyrics = await getSongLyrics(28912);
-  //   if (!eminemLyrics) return;
-  //   const songData = parseSongLyrics(eminemLyrics);
-  //   console.log(songData);
+  const links = await getYoutubeLinksById(22115);
+
+  console.log(links);
 };
 
 main();
