@@ -1,7 +1,7 @@
 import { downloadYoutubeVideo } from "./lib/downloadYoutubeVideo";
 
 const main = async () => {
-  const link = "a9cyG_yfh1k";
+  const link = "-tVWt2RDsoM";
   const path = "video.mp4";
 
   await downloadYoutubeVideo(link, path);
