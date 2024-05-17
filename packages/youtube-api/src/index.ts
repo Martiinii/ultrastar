@@ -6,7 +6,7 @@ const main = async () => {
   //   await downloadYoutubeVideo(link, path);
 
   const res = await searchYoutube("Dua Lipa - Illusion");
-  Bun.write("data.json", JSON.stringify(res));
+  console.log(res);
 };
 
 main();
