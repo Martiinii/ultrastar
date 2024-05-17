@@ -4,8 +4,8 @@ import { mergeHeaders } from "./mergeHeaders";
 const loginUrl = `${config.apiUrl}/index.php?link=login`;
 
 const loginFormBody = new FormData();
-loginFormBody.set("user", Bun.env["USERNAME"]);
-loginFormBody.set("pass", Bun.env["PASSWORD"]);
+loginFormBody.set("user", Bun.env["ULTRASTAR_USERNAME"]);
+loginFormBody.set("pass", Bun.env["ULTRASTAR_PASSWORD"]);
 loginFormBody.set("login", "Login");
 
 let loginCookie = "";
