@@ -2,14 +2,15 @@
   "name": "ultrastar",
   "devDependencies": {
     "@repo/tsconfig": "workspace:*",
+    "dotenv-cli": "^7.4.2",
     "prettier": "^3.2.5"
   },
   "packageManager": "bun@1.0.17",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "watch": "turbo run watch",
+    "build": "dotenv -- turbo build",
+    "dev": "dotenv -- turbo dev",
+    "watch": "dotenv -- turbo run watch",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "workspaces": [
