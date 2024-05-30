@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Elysium",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "strict": true,
+    "module": "esnext",
+    "target": "ES2021"
+  }
+}
