@@ -1,3 +1,8 @@
+/**
+ * Parse single song result
+ * @param html HTML string from parseSongsFromSearch
+ * @returns Song object with id, artist, title and languages fields
+ */
 export const parseSongFromTable = (html: string | undefined): Song | null => {
   if (!html) return null;
 

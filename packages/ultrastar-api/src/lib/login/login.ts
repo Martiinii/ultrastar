@@ -10,6 +10,9 @@ loginFormBody.set("login", "Login");
 
 let loginCookie = "";
 
+/**
+ * Perform a login to api and save login cookie into variable
+ */
 export const refreshLoginCookie = async () => {
   const response = await fetch(loginUrl, {
     method: "POST",
@@ -19,6 +22,10 @@ export const refreshLoginCookie = async () => {
   loginCookie = response.headers.get("set-cookie")?.split(";")[0]!;
 };
 
+/**
+ * Getter for login cookie
+ * @returns login cookie as string
+ */
 export const getLoginCookie = () => loginCookie;
 
 export const loggedFetcher: typeof fetch = (url, init) => {

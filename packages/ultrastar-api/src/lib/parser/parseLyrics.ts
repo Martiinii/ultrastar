@@ -1,3 +1,8 @@
+/**
+ * Parse lyrics of a song
+ * @param html HTML string from lyricsPage
+ * @returns Full song object with headers, metadata and lyrics fields
+ */
 export const parseLyrics = (html: string) => {
   const text = html.match(/<textarea.*?>([\s\S]*)<\/textarea>/m)?.[1];
   if (!text) return null;
@@ -12,10 +17,12 @@ export const parseLyrics = (html: string) => {
   });
 
   const metadata: Metadata = {
-    artist: headers.get("artist"),
-    title: headers.get("title"),
-    year: headers.get("year"),
-    language: headers.get("language"),
+    artist: headers.get("artist") ?? "Unknown",
+    title: headers.get("title") ?? "Unknown",
+    year: headers.get("year") ?? "0",
+    languages: headers.get("language")?.toLowerCase().split(", ") ?? [
+      "unknown",
+    ],
   };
 
   return {
