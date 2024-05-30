@@ -1,12 +1,4 @@
-import { getYoutubeLinksById } from "./lib/data/youtubeLinks";
-import { refreshLoginCookie } from "./lib/login/login";
+/// <reference types="@ultrastar/types" />
 
-await refreshLoginCookie();
-
-const main = async () => {
-  const links = await getYoutubeLinksById(22115);
-
-  console.log(links);
-};
-
-main();
+export * as ultrastar from "./lib/data";
+export * as ultrastarScrapper from "./lib/scrapper";
