@@ -1,0 +1,8 @@
+{
+  "extends": "@ultrastar/tsconfig/elysium.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
