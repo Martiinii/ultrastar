@@ -1,5 +1,5 @@
 {
-  "name": "youtube-api",
+  "name": "@ultrastar/youtube-api",
   "version": "0.0.0",
   "private": true,
   "main": "src/index.ts",
@@ -12,6 +12,6 @@
   },
   "devDependencies": {
     "bun-types": "latest",
-    "@repo/tsconfig": "workspace:*"
+    "@ultrastar/tsconfig": "workspace:*"
   }
 }

@@ -27,8 +27,9 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- `@repo/tsconfig`: `tsconfig.json`s used throughout the monorepo
-- `@repo/ultrastar-api`: Scrapper API to be used by web app
+- `@ultrastar/tsconfig`: `tsconfig.json`s used throughout the monorepo;
+- `@ultrastar/ultrastar-api`: Scrapper API to be used by web app;
+- `@ultrastar/youtube-api`: Youtube API for downloading and searching videos;
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
