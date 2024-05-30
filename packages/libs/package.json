@@ -1,0 +1,15 @@
+{
+  "name": "@ultrastar/libs",
+  "version": "0.0.0",
+  "main": "src/index.ts",
+  "devDependencies": {
+    "bun-types": "latest",
+    "@ultrastar/api": "workspace:*",
+    "@ultrastar/tsconfig": "workspace:*"
+  },
+  "private": true,
+  "types": "src/index.ts",
+  "dependencies": {
+    "@elysiajs/eden": "^1.0.14"
+  }
+}
