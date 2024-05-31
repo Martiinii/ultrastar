@@ -1,5 +1,5 @@
 {
-  "extends": "@ultrastar/tsconfig/base.json",
+  "extends": "@ultrastar/ts-config/base.json",
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"]

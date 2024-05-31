@@ -1,7 +1,7 @@
 {
   "name": "ultrastar",
   "devDependencies": {
-    "@ultrastar/tsconfig": "workspace:*",
+    "@ultrastar/ts-config": "workspace:*",
     "dotenv-cli": "^7.4.2",
     "elysia": "^1.0.22",
     "prettier": "^3.2.5"

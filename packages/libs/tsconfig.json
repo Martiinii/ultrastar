@@ -1,3 +1,3 @@
 {
-  "extends": "@ultrastar/tsconfig/react-library.json"
+  "extends": "@ultrastar/ts-config/react-library.json"
 }

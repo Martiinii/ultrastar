@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "bun-types": "latest",
-    "@ultrastar/tsconfig": "workspace:*",
+    "@ultrastar/ts-config": "workspace:*",
     "@ultrastar/types": "workspace:*"
   },
   "module": "src/index.js"

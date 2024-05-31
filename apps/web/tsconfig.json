@@ -1,5 +1,5 @@
 {
-  "extends": "@ultrastar/tsconfig/nextjs.json",
+  "extends": "@ultrastar/ts-config/nextjs.json",
   "compilerOptions": {
     "paths": {
       "@/*": ["./*"]

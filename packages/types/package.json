@@ -6,6 +6,6 @@
   "types": "src/index.d.ts",
   "devDependencies": {
     "bun-types": "latest",
-    "@ultrastar/tsconfig": "workspace:*"
+    "@ultrastar/ts-config": "workspace:*"
   }
 }
