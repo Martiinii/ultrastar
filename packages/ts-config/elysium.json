@@ -3,8 +3,8 @@
   "display": "Elysium",
   "extends": "./base.json",
   "compilerOptions": {
-    "strict": true,
-    "module": "esnext",
-    "target": "ES2021"
+    "composite": true,
+    "noEmit": false,
+    "allowImportingTsExtensions": false
   }
 }

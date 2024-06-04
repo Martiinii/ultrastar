@@ -9,7 +9,7 @@
     "jsx": "react-jsx",
     "allowJs": true,
 
-    "moduleResolution": "bundler",
+    "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
@@ -25,7 +25,7 @@
     "declaration": true,
     "declarationMap": true,
     "esModuleInterop": true,
-    "incremental": false,
+    "incremental": true,
     "isolatedModules": true,
     "noUncheckedIndexedAccess": true,
     "forceConsistentCasingInFileNames": true,
