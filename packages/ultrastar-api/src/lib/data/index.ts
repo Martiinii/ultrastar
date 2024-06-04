@@ -1,5 +1,5 @@
+export * from "./image";
 export * from "./lyrics";
-export * from "./metadata";
 export * from "./songs";
 export * from "./youtubeLinks";
 
