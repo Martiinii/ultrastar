@@ -1,15 +1,16 @@
 /// <reference types="@ultrastar/types" />
 
 import swagger from "@elysiajs/swagger";
-import { refreshLoginCookie } from "@ultrastar/ultrastar-api/src/lib/login/login";
 import { Elysia } from "elysia";
 import { setupPlugin } from "./plugins/setup";
 import { searchRouter } from "./routers/search";
 import { songsRouter } from "./routers/songs";
+import { syncRouter } from "./routers/sync";
+import { wsRouter } from "./routers/ws";
 
-await refreshLoginCookie();
-
-const app = new Elysia()
+export const app = new Elysia({
+  prefix: "/api",
+})
   .use(setupPlugin)
   .use(
     swagger({
@@ -21,16 +22,22 @@ const app = new Elysia()
         tags: [
           {
             name: "Search",
-            description:
-              "Search songs from https://usdb.animux.de/ with @ultrastar/ultrastar-api",
+            description: "Search songs from local database",
           },
-          { name: "Songs", description: "Manage songs in local filesystem" },
+          { name: "Songs", description: "Download or modify existing songs" },
+          {
+            name: "Sync",
+            description:
+              "Perform actions to synchronize local database with https://usdb.animux.de/",
+          },
         ],
       },
     })
   )
   .use(songsRouter)
   .use(searchRouter)
+  .use(syncRouter)
+  .use(wsRouter)
   .listen(3001);
 
 console.log(
