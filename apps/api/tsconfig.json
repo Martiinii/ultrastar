@@ -1,8 +1,6 @@
 {
   "extends": "@ultrastar/ts-config/elysium.json",
   "compilerOptions": {
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "composite": true
   }
 }

@@ -1,3 +1,7 @@
 {
-  "extends": "@ultrastar/ts-config/react-library.json"
+  "extends": "@ultrastar/ts-config/react-library.json",
+  "references": [{ "path": "../../apps/api" }],
+  "compilerOptions": {
+    "composite": true
+  }
 }
