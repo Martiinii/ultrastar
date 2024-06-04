@@ -1,3 +1,5 @@
+import { mapToObject } from "../../util/mapToObject";
+
 /**
  * Parse lyrics of a song
  * @param html HTML string from lyricsPage
@@ -26,7 +28,7 @@ export const parseLyrics = (html: string) => {
   };
 
   return {
-    headers,
+    headers: mapToObject(headers),
     metadata,
     lyrics: text.replaceAll(/^#.*:.*$[\n\r]+/gm, ""),
   };
