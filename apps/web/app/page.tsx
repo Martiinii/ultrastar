@@ -1,17 +1,17 @@
-"use client";
+import { Container } from "@/components/container";
+import { PaginatedSongs } from "@/components/songs/songs-list";
+import { WebSocketListener } from "@/components/webSocketListener";
 
-import { handleButtonClick } from "./actions";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export default function Home() {
+export default function Home({ searchParams }: { searchParams: SearchParams }) {
+  const currentPage = Number(searchParams?.["page"]) || 1;
+
   return (
-    <main>
-      <button
-        onClick={() => {
-          handleButtonClick();
-        }}
-      >
-        Click me!
-      </button>
-    </main>
+    <Container>
+      <PaginatedSongs page={currentPage} searchParams={searchParams} />
+      <WebSocketListener />
+    </Container>
   );
 }
