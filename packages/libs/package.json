@@ -5,7 +5,8 @@
   "devDependencies": {
     "bun-types": "latest",
     "@ultrastar/api": "workspace:*",
-    "@ultrastar/ts-config": "workspace:*"
+    "@ultrastar/ts-config": "workspace:*",
+    "@ultrastar/types": "workspace:*"
   },
   "private": true,
   "types": "src/index.ts",
