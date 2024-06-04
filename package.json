@@ -3,7 +3,6 @@
   "devDependencies": {
     "@ultrastar/ts-config": "workspace:*",
     "dotenv-cli": "^7.4.2",
-    "elysia": "^1.0.22",
     "prettier": "^3.2.5"
   },
   "packageManager": "bun@1.0.17",
@@ -17,8 +16,5 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "@elysiajs/eden": "^1.0.14"
-  }
+  ]
 }
