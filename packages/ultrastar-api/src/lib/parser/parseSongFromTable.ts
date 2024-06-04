@@ -20,7 +20,7 @@ export const parseSongFromTable = (html: string | undefined): Song | null => {
   if (!songId || !artist || !title || !languages) return null;
 
   return {
-    id: songId,
+    apiId: songId,
     artist,
     title,
     languages,
