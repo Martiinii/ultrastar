@@ -15,14 +15,14 @@ type SongHeaderType =
 type SongHeaders = Map<SongHeaderType, string>;
 
 type Metadata = {
-  artist: string | undefined;
-  title: string | undefined;
-  year: string | undefined;
-  language: string | undefined;
+  artist: string | null | undefined;
+  title: string | null | undefined;
+  year: string | number | null | undefined;
+  languages: string[] | null | undefined;
 };
 
 type Song = {
-  id: number;
+  apiId: number;
   artist: string;
   title: string;
   languages: string[];
@@ -37,3 +37,5 @@ type YoutubeLink = {
   createdAt: Date;
   link: string;
 };
+
+type SearchParams = { [key: string]: string | string[] } | undefined;
