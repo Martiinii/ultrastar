@@ -1,4 +1,4 @@
-import config from "@/config.json";
+import config from "../../config.json";
 
 /**
  * Scrapes song page containing metadata and comments

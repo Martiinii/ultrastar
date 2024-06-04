@@ -1,4 +1,4 @@
-import config from "@/config.json";
+import config from "../../config.json";
 import { loggedFetcher } from "../login/login";
 
 const LIMIT_PER_PAGE = 100;
@@ -12,8 +12,8 @@ const generateSearchFormBody = (page: number) => {
   const searchFormBody = new FormData();
   searchFormBody.set("order", "id");
   searchFormBody.set("ud", "asc");
-  searchFormBody.set("limit", LIMIT_PER_PAGE);
-  searchFormBody.set("start", (page - 1) * LIMIT_PER_PAGE);
+  searchFormBody.set("limit", LIMIT_PER_PAGE.toString());
+  searchFormBody.set("start", ((page - 1) * LIMIT_PER_PAGE).toString());
 
   return searchFormBody;
 };
