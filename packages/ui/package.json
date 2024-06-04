@@ -1,0 +1,36 @@
+{
+  "name": "@ultrastar/ui",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "ui:add": "bunx shadcn-ui@latest add"
+  },
+  "devDependencies": {
+    "@ultrastar/ts-config": "workspace:*",
+    "autoprefixer": "^10.4.19",
+    "bun-types": "latest",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3"
+  },
+  "dependencies": {
+    "@radix-ui/react-aspect-ratio": "^1.0.3",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.381.0",
+    "next-themes": "^0.3.0",
+    "sonner": "^1.4.41",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vaul": "^0.9.1"
+  },
+  "exports": {
+    "./globals.css": "./src/globals.css",
+    "./postcss.config": "./postcss.config.js",
+    "./tailwind.config": "./tailwind.config.ts",
+    "./lib/*": "./src/lib/*.ts",
+    "./components/*": "./src/components/ui/*.tsx"
+  }
+}
