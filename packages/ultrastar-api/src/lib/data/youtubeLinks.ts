@@ -10,8 +10,6 @@ export const getYoutubeLinks = (html: string) => {
   return parseYoutubeLinks(html);
 };
 
-const test: ABCD = "";
-
 /**
  * Gets all youtube links from comments for provided song
  * @param id Song id
