@@ -5,18 +5,29 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
-    "dev": "bun --watch src/index.ts"
+    "dev": "bun --watch src/index.ts",
+    "db:generate": "bunx drizzle-kit generate",
+    "db:migrate": "bun src/db/migrate.ts",
+    "db:drop": "bunx drizzle-kit drop",
+    "db:pull": "bunx drizzle-kit introspect",
+    "db:push": "bunx drizzle-kit push",
+    "db:studio": "bunx drizzle-kit studio",
+    "db:check": "bunx drizzle-kit check:pg"
   },
   "dependencies": {
     "@elysiajs/swagger": "^1.0.5",
-    "elysia": "latest",
+    "@paralleldrive/cuid2": "^2.2.2",
     "@ultrastar/ultrastar-api": "workspace:*",
-    "@ultrastar/youtube-api": "workspace:*"
+    "@ultrastar/youtube-api": "workspace:*",
+    "drizzle-orm": "^0.31.0",
+    "drizzle-typebox": "^0.1.1",
+    "elysia": "^1.0.22"
   },
   "devDependencies": {
-    "bun-types": "latest",
+    "@libsql/client": "^0.6.1",
     "@ultrastar/ts-config": "workspace:*",
-    "@ultrastar/types": "workspace:*"
-  },
-  "module": "src/index.js"
+    "@ultrastar/types": "workspace:*",
+    "bun-types": "latest",
+    "drizzle-kit": "^0.22.0"
+  }
 }
