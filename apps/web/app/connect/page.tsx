@@ -5,6 +5,7 @@ import { networkInterfaces } from "os";
 import QRCode from "react-qr-code";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 120;
 
 const getServerIp = () => {
   const interfaces = networkInterfaces();
