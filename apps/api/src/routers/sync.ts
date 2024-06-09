@@ -82,6 +82,8 @@ export const syncRouter = new Elysia({
         }
       }
     }
+
+    console.log("🔥 Download complete");
   })
   .post("/sync-downloaded", async () => {
     const songsDirectory = "./songs";
