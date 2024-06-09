@@ -6,6 +6,7 @@ export const generateSearchParamsString = (
   searchParamsArr.forEach((searchParams) => {
     Object.entries(searchParams ?? ({} as never)).forEach(([k, v]) => {
       if (Array.isArray(v)) {
+        params.delete(k);
         return v.forEach((vv) => params.append(k, vv));
       }
       return params.set(k, v);
