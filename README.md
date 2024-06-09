@@ -21,10 +21,6 @@ Then you can run this application in development mode using `bun dev`.
 > [!CAUTION]
 > I've had several issues with bun, turbo and Next.js causing memory leaks. It is caused probably because Node.js is used to run the dev server (app router currently relies on Node.js APIs that Bun does not yet implement). To circumvent this issue, you can run api using `bun dev -- filter @ultrastar/api` and web app using `cd apps/web && bun dev`.
 
-```sh
-bun i && bun dev
-```
-
 ## What's inside?
 
 This Turborepo includes the following packages/apps:
