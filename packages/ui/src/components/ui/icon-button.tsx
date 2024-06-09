@@ -5,41 +5,47 @@ import { LoaderIcon, type LucideIcon } from "lucide-react";
 import { Button, type ButtonProps } from "./button";
 
 export interface IconButtonProps extends ButtonProps {
-  icon?: LucideIcon | null;
-  iconRight?: LucideIcon | null;
+  icon?: {
+    icon?: LucideIcon | null;
+    className?: string;
+  };
+  iconRight?: {
+    icon?: LucideIcon | null;
+    className?: string;
+  };
   isLoading?: boolean;
 }
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  (
-    {
-      icon: Icon,
-      iconRight: IconRight,
-      isLoading,
-      disabled,
-      children,
-      ...props
-    },
-    ref
-  ) => {
+  ({ icon, iconRight, isLoading, disabled, children, ...props }, ref) => {
     const containsChildren = !!children;
 
-    if (isLoading) Icon = LoaderIcon;
+    if (isLoading) {
+      icon ??= {};
+      icon.icon = LoaderIcon;
+    }
 
     return (
       <Button {...props} ref={ref} disabled={isLoading || disabled}>
-        {Icon && (
-          <Icon
+        {icon?.icon && (
+          <icon.icon
             className={cn(
               "size-4",
               containsChildren && "mr-2",
-              isLoading && "animate-spin"
+              isLoading && "animate-spin",
+              icon.className
             )}
           />
         )}
         {children}
-        {IconRight && (
-          <IconRight className={cn("size-4", containsChildren && "ml-2")} />
+        {iconRight?.icon && (
+          <iconRight.icon
+            className={cn(
+              "size-4",
+              containsChildren && "ml-2",
+              iconRight.className
+            )}
+          />
         )}
       </Button>
     );
