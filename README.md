@@ -21,6 +21,18 @@ Then you can run this application in development mode using `bun dev`.
 > [!CAUTION]
 > I've had several issues with bun, turbo and Next.js causing memory leaks. It is caused probably because Node.js is used to run the dev server (app router currently relies on Node.js APIs that Bun does not yet implement). To circumvent this issue, you can run api using `bun dev -- filter @ultrastar/api` and web app using `cd apps/web && bun dev`.
 
+## Why are there no songs?
+
+For now, you have to downloads songs by yourself. In the future I will upload default database file, but it is over 200MB (mostly cover images).
+To seed the database by yourself, start the application and head over to `http://localhost:3000/api/swagger`.
+Once there, head over to **Sync** and choose `/api/sync/download` and click **Test Request**, then press **Send** Button.
+It will cause to download every song (over 27000!). It will take several minutes depending on your machine and internet connection (it took ~20 minutes for me).
+
+> [!IMPORTANT]
+> Swagger will return timeout after some time, but it doesn't mean it isn't downloading! Once every song is downloaded, Elysia will output `🔥 Download complete` to console.
+
+After that step is complete, head over to main page and enjoy your fresh songs.
+
 ## What's inside?
 
 This Turborepo includes the following packages/apps:
@@ -32,7 +44,7 @@ Apps:
 - `@ultrastar/api`: Backend API server using Elysia.js;
 - `@ultrastar/web`: Next.js application for frontend;
 
-  Packages:
+Packages:
 
 - `@ultrastar/libs`: Shared libraries like Elysia's Eden connector;
 - `@ultrastar/ts-config`: `tsconfig.json`s used throughout the monorepo;
