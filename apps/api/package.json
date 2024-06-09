@@ -21,7 +21,8 @@
     "@ultrastar/youtube-api": "workspace:*",
     "drizzle-orm": "^0.31.0",
     "drizzle-typebox": "^0.1.1",
-    "elysia": "^1.0.22"
+    "elysia": "^1.0.22",
+    "libsql": "^0.3.18"
   },
   "devDependencies": {
     "@libsql/client": "^0.6.1",
