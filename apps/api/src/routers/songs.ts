@@ -8,7 +8,7 @@ import {
 } from "@ultrastar/youtube-api";
 import { eq } from "drizzle-orm";
 import Elysia from "elysia";
-import { mkdir } from "node:fs/promises";
+import { mkdir, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { db } from "../db";
 import { songTable } from "../db/schema/songs";
@@ -29,7 +29,8 @@ export const songsRouter = new Elysia({
       },
     });
     if (!song) return error(404, "Song not found");
-    if (!song.coverImage) return error(404, "Image not found");
+    if (!song.coverImage)
+      return new Response(Bun.file("assets/cover_not_found.jpg"));
 
     return new Response(song.coverImage, {
       headers: {
@@ -43,7 +44,7 @@ export const songsRouter = new Elysia({
       where: (t, { eq }) => eq(t.id, id),
       columns: {
         apiId: true,
-        isDownloaded: true,
+        downloadStatus: true,
         title: true,
         artist: true,
         coverImage: true,
@@ -51,7 +52,10 @@ export const songsRouter = new Elysia({
     });
 
     if (!dbSong) return error(400, "Song not found in database");
-    if (dbSong.isDownloaded) return error(409, "Song is already downloaded");
+    if (dbSong.downloadStatus === "loading")
+      return error(409, "Song is already being downloaded");
+    if (dbSong.downloadStatus === "complete")
+      return error(409, "Song is already downloaded");
 
     const song = await getLyricsById(dbSong.apiId);
     if (!song) return error(400, "Song not found");
@@ -62,78 +66,98 @@ export const songsRouter = new Elysia({
       title: dbSong.title,
     };
 
-    // Broadcast WS message that this song is now being downloaded
-    publishMessage({
-      status: "loading",
-      ...messageData,
-    });
-
-    // Get link to Youtube video
-    const youtubeVideos = await getYoutubeLinksById(dbSong.apiId);
-
-    let youtubeLink: string;
-
-    if (youtubeVideos.length == 0) {
-      const searchResult = await searchYoutube(
-        `${song.metadata.artist} - ${song.metadata.title}`
-      );
-      if (searchResult.length == 0) return error(400, "No videos found");
-
-      youtubeLink = searchResult[0]!.id;
-    } else {
-      youtubeLink = youtubeVideos[0]!.link;
-    }
-
-    // Write lyrics and headers to file
     const songDirectoryName = `${dbSong.artist} - ${dbSong.title}`;
     const songDirectoryPath = join("./songs", songDirectoryName);
 
-    // Create directory
-    await mkdir(songDirectoryPath, { recursive: true });
+    try {
+      // Broadcast WS message that this song is now being downloaded
+      publishMessage({
+        status: "loading",
+        ...messageData,
+      });
 
-    song.headers.mp3 = "video.mp4";
-    song.headers.video = "video.mp4";
-    song.headers.cover = "cover.jpg";
+      // Update song in database
+      await db
+        .update(songTable)
+        .set({
+          downloadStatus: "loading",
+        })
+        .where(eq(songTable.id, id));
 
-    const lyricsFile = Bun.file(join(songDirectoryPath, "song.txt"));
-    const writer = lyricsFile.writer();
-    Object.entries(song.headers).forEach(([k, v]) => {
-      writer.write(`#${k.toUpperCase()}:${v}\n`);
-    });
+      // Get link to Youtube video
+      const youtubeVideos = await getYoutubeLinksById(dbSong.apiId);
 
-    writer.write(song.lyrics);
-    writer.end();
+      let youtubeLink: string;
 
-    // Write cover image data to file
-    await Bun.write(
-      join(songDirectoryPath, "cover.jpg"),
-      dbSong.coverImage ?? ""
-    );
+      if (youtubeVideos.length == 0) {
+        const searchResult = await searchYoutube(
+          `${song.metadata.artist} - ${song.metadata.title}`
+        );
+        if (searchResult.length == 0) return error(400, "No videos found");
 
-    // Write metadata to file
-    await Bun.write(
-      join(songDirectoryPath, "metadata.json"),
-      JSON.stringify({ id })
-    );
+        youtubeLink = searchResult[0]!.id;
+      } else {
+        youtubeLink = youtubeVideos[0]!.link;
+      }
 
-    // Download Youtube video
-    await downloadYoutubeVideoFromLink(
-      youtubeLink,
-      join(songDirectoryPath, "video.mp4")
-    );
+      // Create directory
+      await mkdir(songDirectoryPath, { recursive: true });
 
-    // Update song in database
-    await db
-      .update(songTable)
-      .set({
-        isDownloaded: true,
-      })
-      .where(eq(songTable.id, id));
+      song.headers.mp3 = "video.mp4";
+      song.headers.video = "video.mp4";
+      song.headers.cover = "cover.jpg";
 
-    publishMessage({
-      status: "complete",
-      ...messageData,
-    });
+      // Write lyrics and headers to file
+      const lyricsFile = Bun.file(join(songDirectoryPath, "song.txt"));
+      const writer = lyricsFile.writer();
+      Object.entries(song.headers).forEach(([k, v]) => {
+        writer.write(`#${k.toUpperCase()}:${v}\n`);
+      });
 
-    return;
+      writer.write(song.lyrics);
+      writer.end();
+
+      // Write cover image data to file
+      await Bun.write(
+        join(songDirectoryPath, "cover.jpg"),
+        dbSong.coverImage ?? ""
+      );
+
+      // Write metadata to file
+      await Bun.write(
+        join(songDirectoryPath, "metadata.json"),
+        JSON.stringify({ id })
+      );
+
+      // Download Youtube video
+      await downloadYoutubeVideoFromLink(
+        youtubeLink,
+        join(songDirectoryPath, "video.mp4")
+      );
+
+      // Update song in database
+      await db
+        .update(songTable)
+        .set({
+          downloadStatus: "complete",
+        })
+        .where(eq(songTable.id, id));
+
+      publishMessage({
+        status: "complete",
+        ...messageData,
+      });
+    } catch (e) {
+      // Revert song and remove all associated files
+      await db
+        .update(songTable)
+        .set({
+          downloadStatus: "available",
+        })
+        .where(eq(songTable.id, id));
+
+      await rm(songDirectoryPath, { recursive: true, force: true });
+
+      return error(500, "An error occured while downloading this song");
+    }
   });
