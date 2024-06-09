@@ -2,15 +2,14 @@
   "name": "ultrastar",
   "devDependencies": {
     "@ultrastar/ts-config": "workspace:*",
-    "dotenv-cli": "^7.4.2",
     "prettier": "^3.2.5"
   },
   "packageManager": "bun@1.1.10",
   "private": true,
   "scripts": {
-    "build": "dotenv -- turbo build",
-    "dev": "dotenv -- turbo watch dev",
-    "db:push": "dotenv -- turbo db:push",
+    "build": "turbo build",
+    "dev": "turbo watch dev",
+    "db:push": "turbo db:push",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "workspaces": [
