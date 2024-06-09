@@ -17,7 +17,9 @@ export const songTable = sqliteTable("song", {
   coverImage: blob("image").$type<Uint8Array>(),
   downloadStatus: text("download_status", {
     enum: ["available", "loading", "complete"],
-  }).default("available"),
+  })
+    .notNull()
+    .default("available"),
 });
 export const songRelations = relations(songTable, ({ many }) => ({
   songToLanguages: many(songToLanguageTable),
