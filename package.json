@@ -10,6 +10,7 @@
   "scripts": {
     "build": "dotenv -- turbo build",
     "dev": "dotenv -- turbo watch dev",
+    "db:push": "dotenv -- turbo db:push",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "workspaces": [
