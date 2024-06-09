@@ -1,42 +1,68 @@
-import { count } from "drizzle-orm";
+import { and, asc, count, eq, inArray, like, or, sql } from "drizzle-orm";
 import { db } from "..";
-import { songTable } from "../schema/songs";
+import { languageTable, songTable, songToLanguageTable } from "../schema/songs";
 
-const PAGE_SIZE = 10;
-export const getSongs = async (page: number) => {
-  const res = await db.transaction(async (tx) => {
-    const songs = await tx.query.songTable.findMany({
-      with: {
-        songToLanguages: {
-          with: {
-            language: {
-              columns: {
-                language: true,
-              },
-            },
-          },
-          columns: {},
-        },
-      },
-      columns: {
-        coverImage: false,
-      },
-      orderBy: (t, { asc }) => asc(t.id),
-      limit: PAGE_SIZE,
-      offset: (page - 1) * PAGE_SIZE,
-    });
+const PAGE_SIZE = 100;
+export const getSongs = async (
+  page: number,
+  search: string | undefined,
+  languages: string[] | undefined
+) => {
+  const searchLikeString = search ? `%${search}%` : null;
 
-    const totalCount = tx.select({ count: count() }).from(songTable).get();
-    const totalPages = Math.ceil((totalCount?.count ?? 0) / PAGE_SIZE);
+  const filteredSongs = db.$with("filtered_songs").as(
+    db
+      .select({
+        id: songTable.id,
+        title: songTable.title,
+        artist: songTable.artist,
+        year: songTable.year,
+        downloadStatus: songTable.downloadStatus,
+        languages: sql<string>`GROUP_CONCAT(language.language)`.as("languages"),
+      })
+      .from(songTable)
+      .innerJoin(
+        songToLanguageTable,
+        eq(songTable.id, songToLanguageTable.songId)
+      )
+      .innerJoin(
+        languageTable,
+        eq(languageTable.id, songToLanguageTable.languageId)
+      )
+      .where(
+        and(
+          searchLikeString
+            ? or(
+                like(songTable.title, searchLikeString),
+                like(songTable.artist, searchLikeString)
+              )
+            : undefined,
+          languages?.length ? inArray(languageTable.id, languages) : undefined
+        )
+      )
+      .groupBy(songTable.id)
+  );
 
-    return {
-      songs: songs.map(({ songToLanguages, ...s }) => ({
-        ...s,
-        languages: songToLanguages.map((l) => l.language.language),
-      })),
-      totalPages,
-    };
-  });
+  const songs = db
+    .with(filteredSongs)
+    .select()
+    .from(filteredSongs)
+    .orderBy(asc(filteredSongs.title))
+    .limit(PAGE_SIZE)
+    .offset((page - 1) * PAGE_SIZE)
+    .all();
+
+  const totalCount = db
+    .with(filteredSongs)
+    .select({ count: count() })
+    .from(filteredSongs)
+    .get();
+
+  const totalPages = Math.ceil((totalCount?.count ?? 0) / PAGE_SIZE);
+  const res = {
+    songs,
+    totalPages,
+  };
 
   return res;
 };

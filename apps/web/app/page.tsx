@@ -7,10 +7,20 @@ export const revalidate = 0;
 
 export default function Home({ searchParams }: { searchParams: SearchParams }) {
   const currentPage = Number(searchParams?.["page"]) || 1;
+  const currentSearch = searchParams?.["search"]?.toString() || "";
+  let currentLanguages = searchParams?.["language"] ?? "";
+  if (Array.isArray(currentLanguages)) {
+    currentLanguages = currentLanguages.join(",");
+  }
 
   return (
     <Container>
-      <PaginatedSongs page={currentPage} searchParams={searchParams} />
+      <PaginatedSongs
+        page={currentPage}
+        search={currentSearch}
+        languages={currentLanguages}
+        searchParams={searchParams}
+      />
       <WebSocketListener />
     </Container>
   );

@@ -29,11 +29,14 @@ export const SongCard = (props: SongCardProps) => {
             className="object-cover rounded-t-lg"
           />
           <div className="absolute p-2 flex gap-2 flex-wrap bottom-0 w-full justify-end">
-            {languages.map((l) => (
-              <Badge key={l} variant={"secondary"} className="capitalize">
-                {l}
-              </Badge>
-            ))}
+            {languages.split(",").map(
+              (l) =>
+                l && (
+                  <Badge key={l} variant={"secondary"} className="capitalize">
+                    {l}
+                  </Badge>
+                )
+            )}
           </div>
         </AspectRatio>
       </div>

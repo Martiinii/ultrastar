@@ -12,11 +12,20 @@ export const searchRouter = new Elysia({
   tags: ["Search"],
 })
   .use(setupPlugin)
-  .get("/:page", async ({ params: { page } }) => getSongs(page), {
-    params: t.Object({
-      page: t.Numeric(),
-    }),
-  })
+  .get(
+    "/:page",
+    async ({ params: { page }, query: { search, languages } }) =>
+      getSongs(page, search, languages ? languages.split(",") : []),
+    {
+      params: t.Object({
+        page: t.Numeric(),
+      }),
+      query: t.Object({
+        search: t.Optional(t.String()),
+        languages: t.Optional(t.String()),
+      }),
+    }
+  )
   .get(
     "/id/:id",
     ({ params: { id } }) => {
@@ -31,5 +40,4 @@ export const searchRouter = new Elysia({
   .get("/count", () => {
     const res = db.select({ count: count() }).from(songTable).get();
     return res?.count ?? 0;
-  })
-  .get("/filters/:filter", "");
+  });

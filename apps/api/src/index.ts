@@ -3,6 +3,7 @@
 import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import { setupPlugin } from "./plugins/setup";
+import { languagesRouter } from "./routers/languages";
 import { searchRouter } from "./routers/search";
 import { songsRouter } from "./routers/songs";
 import { syncRouter } from "./routers/sync";
@@ -25,6 +26,7 @@ export const app = new Elysia({
             description: "Search songs from local database",
           },
           { name: "Songs", description: "Download or modify existing songs" },
+          { name: "Languages", description: "Retrieve every language" },
           {
             name: "Sync",
             description:
@@ -37,6 +39,7 @@ export const app = new Elysia({
   .use(songsRouter)
   .use(searchRouter)
   .use(syncRouter)
+  .use(languagesRouter)
   .use(wsRouter)
   .listen(3001);
 

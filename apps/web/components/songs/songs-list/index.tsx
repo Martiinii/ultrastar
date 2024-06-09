@@ -4,13 +4,19 @@ import { Pages } from "./pagination";
 
 type PaginatedSongsProps = {
   page: number;
+  search: string;
+  languages: string;
   searchParams?: SearchParams;
 };
 export const PaginatedSongs = async ({
   page,
+  search,
+  languages,
   searchParams,
 }: PaginatedSongsProps) => {
-  const songs = await api.search({ page }).get();
+  const songs = await api
+    .search({ page })
+    .get({ query: { search, languages } });
 
   return (
     <>
