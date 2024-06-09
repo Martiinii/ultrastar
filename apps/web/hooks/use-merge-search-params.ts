@@ -5,9 +5,18 @@ export const useMergeSearchParams = () => {
   const searchParams = useSearchParams();
 
   const createQueryParams = useCallback(
-    (name: string, value: string) => {
+    (...data: [string, string | string[]][]) => {
       const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
+
+      data.forEach(([k, v]) => {
+        if (Array.isArray(v)) {
+          params.delete(k);
+          v.forEach((vv) => params.append(k, vv));
+          return;
+        }
+
+        params.set(k, v);
+      });
 
       return params;
     },
