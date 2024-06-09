@@ -6,16 +6,20 @@ I've done a [similar project](https://github.com/Martiinii/UltraScrap-cli) in pa
 ## Code structure
 
 This project is using **bun** as package manager alongside **turborepo**.
+I have developed this project using **bun@1.1.10**, but any version above **1.1** should do.
 Packages can be found in `/packages` directory with the most notable being `ultrastar-api`.
-
-In future there will be **Next.js** app under `/apps`
 
 ## How to run this application?
 
 First, let's start with creating an account on [usdb.animux.de](https://usdb.animux.de). Go ahead and register a new account and save the credentials into `.env` file.
+Make sure to install [yt-dlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation). It is necessary for automatic video downloading.
 
-Currently there is no easy way to run application as it is being actively developed.
-You can however run library (and all other apps - _currently none_) with:
+Then you need to install dependencies with `bun i` and create database using `bun db:push`
+
+Then you can run this application in development mode using `bun dev`.
+
+> [!CAUTION]
+> I've had several issues with bun, turbo and Next.js causing memory leaks. It is caused probably because Node.js is used to run the dev server (app router currently relies on Node.js APIs that Bun does not yet implement). To circumvent this issue, you can run api using `bun dev -- filter @ultrastar/api` and web app using `cd apps/web && bun dev`.
 
 ```sh
 bun i && bun dev
@@ -27,11 +31,21 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
+Apps:
+
+- `@ultrastar/api`: Backend API server using Elysia.js;
+- `@ultrastar/web`: Next.js application for frontend;
+
+  Packages:
+
+- `@ultrastar/libs`: Shared libraries like Elysia's Eden connector;
 - `@ultrastar/ts-config`: `tsconfig.json`s used throughout the monorepo;
-- `@ultrastar/ultrastar-api`: Scrapper API to be used by web app;
+- `@ultrastar/types`: Custom types used throughout the project like pieces of [TS Reset](https://github.com/total-typescript/ts-reset) or API types;
+- `@ultrastar/ui`: UI design system using [shadcn/ui](https://github.com/shadcn/ui/);
+- `@ultrastar/ultrastar-api`: Scrapper API;
 - `@ultrastar/youtube-api`: Youtube API for downloading and searching videos;
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/) (besides some configs, to be fixed).
 
 ### Build
 
@@ -39,20 +53,6 @@ To build all apps and packages, run the following command:
 
 ```sh
 bun build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```sh
-bun dev
-```
-
-Or to watch for changes:
-
-```sh
-bun watch
 ```
 
 ### Remote Caching
