@@ -11,7 +11,7 @@ export const songGenerator = async function* () {
 
   const totalPages = firstPage.totalPages;
 
-  for (let i = 2; i < totalPages; i++) {
+  for (let i = 2; i <= totalPages; i++) {
     const page = await getSongsFromPage(i);
     yield page;
   }
