@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import {
   generateTitleByArtist,
   SONG_DOWNLOADED,
+  SONG_ERROR,
 } from "./songs/song-card/toastTitles";
 
 export const WebSocketListener = memo(() => {
@@ -25,6 +26,12 @@ export const WebSocketListener = memo(() => {
           });
         case "loading":
           return songsStore.addDownloading(data.songId);
+        case "error":
+          songsStore.removeDownloading(data.songId);
+          return toast.error(SONG_ERROR, {
+            id: data.songId,
+            description: generateTitleByArtist(data.title, data.artist),
+          });
       }
     });
     return () => {

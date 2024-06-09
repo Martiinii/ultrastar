@@ -3,7 +3,11 @@ import { app } from "..";
 import { setupPlugin } from "../plugins/setup";
 
 const WebSocketResponseSchema = t.Object({
-  status: t.Union([t.Literal("complete"), t.Literal("loading")]),
+  status: t.Union([
+    t.Literal("complete"),
+    t.Literal("loading"),
+    t.Literal("error"),
+  ]),
   songId: t.String(),
   title: t.String(),
   artist: t.String(),
