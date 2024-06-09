@@ -1,8 +1,10 @@
 "use client";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { IsDesktopProvider, useIsDesktop } from "@/providers/isDesktopProvider";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -11,6 +13,7 @@ import {
 } from "@ui/components/dialog";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
@@ -23,10 +26,11 @@ type ResponsiveDialogProps = {
   onOpenChange?: (v: boolean) => void;
   trigger: React.ReactNode;
   header?: {
-    title: string;
-    description?: string;
+    title: string | React.ReactNode;
+    description?: string | React.ReactNode;
   };
   children?: React.ReactNode;
+  className?: string;
 };
 export const ResponsiveDialog = ({
   open,
@@ -34,30 +38,27 @@ export const ResponsiveDialog = ({
   trigger,
   header,
   children,
+  className,
 }: ResponsiveDialogProps) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogTrigger asChild>{trigger}</DialogTrigger>
-        <DialogContent>
-          {header && (
-            <DialogHeader>
-              <DialogTitle>{header.title}</DialogTitle>
-              {header.description && (
-                <DialogDescription>{header.description}</DialogDescription>
-              )}
-            </DialogHeader>
-          )}
+  const responsiveDialogOrDrawer = isDesktop ? (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent className={className}>
+        {header && (
+          <DialogHeader>
+            <DialogTitle>{header.title}</DialogTitle>
+            {header.description && (
+              <DialogDescription>{header.description}</DialogDescription>
+            )}
+          </DialogHeader>
+        )}
 
-          {children}
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
-  return (
+        {children}
+      </DialogContent>
+    </Dialog>
+  ) : (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
@@ -75,4 +76,25 @@ export const ResponsiveDialog = ({
       </DrawerContent>
     </Drawer>
   );
+
+  return (
+    <IsDesktopProvider value={isDesktop}>
+      {responsiveDialogOrDrawer}
+    </IsDesktopProvider>
+  );
+};
+
+type ResponsiveDialogCloseProps = {
+  children: React.ReactNode;
+};
+export const ResponsiveDialogClose = ({
+  children,
+}: ResponsiveDialogCloseProps) => {
+  const isDesktop = useIsDesktop();
+
+  if (isDesktop) {
+    return <DialogClose asChild>{children}</DialogClose>;
+  }
+
+  return <DrawerClose asChild>{children}</DrawerClose>;
 };
