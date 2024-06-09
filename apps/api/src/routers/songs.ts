@@ -129,24 +129,45 @@ export const songsRouter = new Elysia({
         JSON.stringify({ id })
       );
 
-      // Download Youtube video
-      await downloadYoutubeVideoFromLink(
-        youtubeLink,
-        join(songDirectoryPath, "video.mp4")
-      );
+      // We don't wait for video to fully download before we response
+      (async () => {
+        try {
+          // Download Youtube video
+          await downloadYoutubeVideoFromLink(
+            youtubeLink,
+            join(songDirectoryPath, "video.mp4")
+          );
 
-      // Update song in database
-      await db
-        .update(songTable)
-        .set({
-          downloadStatus: "complete",
-        })
-        .where(eq(songTable.id, id));
+          // Update song in database
+          await db
+            .update(songTable)
+            .set({
+              downloadStatus: "complete",
+            })
+            .where(eq(songTable.id, id));
 
-      publishMessage({
-        status: "complete",
-        ...messageData,
-      });
+          publishMessage({
+            status: "complete",
+            ...messageData,
+          });
+        } catch (e) {
+          await db
+            .update(songTable)
+            .set({
+              downloadStatus: "available",
+            })
+            .where(eq(songTable.id, id));
+
+          await rm(songDirectoryPath, { recursive: true, force: true });
+          publishMessage({
+            status: "error",
+            ...messageData,
+          });
+        }
+      })();
+
+      // Early respond before video is downloaded to avoid ECONNREFUSED error from Next.js proxy
+      return "Downloading...";
     } catch (e) {
       // Revert song and remove all associated files
       await db
