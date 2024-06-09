@@ -9,7 +9,7 @@ export const SongCardButton = (props: SongCardProps) => {
   const songsStore = useSongsStore();
   const buttonState = songsStore.songs.get(props.id);
 
-  if (props.isDownloaded || buttonState === "complete")
+  if (props.downloadStatus === "complete" || buttonState === "complete")
     return <ChangeVideoButton {...props} />;
 
   return <DownloadButton {...props} />;

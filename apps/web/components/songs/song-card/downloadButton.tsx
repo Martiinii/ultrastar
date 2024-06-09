@@ -8,7 +8,12 @@ import { toast } from "sonner";
 import type { SongCardProps } from ".";
 import { generateTitleByArtist, SONG_STARTED_DOWNLOADING } from "./toastTitles";
 
-export const DownloadButton = ({ id, title, artist }: SongCardProps) => {
+export const DownloadButton = ({
+  id,
+  title,
+  artist,
+  downloadStatus,
+}: SongCardProps) => {
   const songsStore = useSongsStore();
   const buttonState = songsStore.songs.get(id);
 
@@ -49,9 +54,9 @@ export const DownloadButton = ({ id, title, artist }: SongCardProps) => {
   return (
     <IconButton
       className="w-full"
-      icon={icon}
+      icon={{ icon }}
       onClick={downloadClick}
-      isLoading={buttonState === "loading"}
+      isLoading={buttonState === "loading" || downloadStatus === "loading"}
     >
       {buttonText}
     </IconButton>
