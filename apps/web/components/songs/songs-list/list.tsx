@@ -1,4 +1,5 @@
-import { api } from "@ultrastar/libs";
+import type { api } from "@/lib/api";
+import { Disc3 } from "lucide-react";
 import { SongCard } from "../song-card";
 type SongsResponse = Awaited<
   ReturnType<ReturnType<(typeof api)["search"]>["get"]>
@@ -9,7 +10,7 @@ export type SongsListProps = {
 };
 export const SongsList = ({ data }: SongsListProps) => {
   if (!data || !data.songs.length) {
-    return <span>No songs</span>;
+    return <NoSongsFound />;
   }
 
   return (
@@ -18,5 +19,15 @@ export const SongsList = ({ data }: SongsListProps) => {
         <SongCard key={s.id} {...s} />
       ))}
     </section>
+  );
+};
+
+const NoSongsFound = () => {
+  return (
+    <div className="flex justify-center mt-20 text-2xl items-center gap-2">
+      <span>Empty playlist!</span>
+      <Disc3 className="size-10" />
+      <span>Try a different tune</span>
+    </div>
   );
 };
