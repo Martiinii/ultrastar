@@ -4,7 +4,7 @@ import type { SongCardProps } from ".";
 
 export const ChangeVideoButton = ({}: SongCardProps) => {
   return (
-    <IconButton className="w-full" icon={Music} variant={"secondary"}>
+    <IconButton className="w-full" icon={{ icon: Music }} variant={"secondary"}>
       Change video
     </IconButton>
   );
