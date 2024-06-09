@@ -2,7 +2,8 @@
   "extends": "@ultrastar/ts-config/react-library.json",
   "compilerOptions": {
     "paths": {
-      "@ui/*": ["./src/*"]
+      "@ui/components/*": ["./src/components/ui/*"],
+      "@ui/lib/*": ["./src/lib/*"]
     }
   },
   "include": ["src"]
