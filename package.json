@@ -5,16 +5,18 @@
     "dotenv-cli": "^7.4.2",
     "prettier": "^3.2.5"
   },
-  "packageManager": "bun@1.0.17",
+  "packageManager": "bun@1.1.10",
   "private": true,
   "scripts": {
     "build": "dotenv -- turbo build",
-    "dev": "dotenv -- turbo dev",
-    "watch": "dotenv -- turbo run watch",
+    "dev": "dotenv -- turbo watch dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "turbo": "^2.0.3"
+  }
 }
