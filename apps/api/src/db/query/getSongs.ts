@@ -20,11 +20,8 @@ export const getSongs = async (
         downloadStatus: songTable.downloadStatus,
         languages: sql<string>`GROUP_CONCAT(language.language)`.as("languages"),
       })
-      .from(songTable)
-      .innerJoin(
-        songToLanguageTable,
-        eq(songTable.id, songToLanguageTable.songId)
-      )
+      .from(songToLanguageTable)
+      .innerJoin(songTable, eq(songTable.id, songToLanguageTable.songId))
       .innerJoin(
         languageTable,
         eq(languageTable.id, songToLanguageTable.languageId)
