@@ -5,10 +5,10 @@ import { useSongsStore } from "@/store/useSongsStore";
 import { memo, useEffect } from "react";
 import { toast } from "sonner";
 import {
-  generateTitleByArtist,
   SONG_DOWNLOADED,
   SONG_ERROR,
-} from "./songs/song-card/toastTitles";
+  generateTitleByArtist,
+} from "./feature/songs/utils/toastTitles";
 
 export const WebSocketListener = memo(() => {
   const songsStore = useSongsStore();
