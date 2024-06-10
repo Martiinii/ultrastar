@@ -5,8 +5,11 @@ import { useSongsStore } from "@/store/useSongsStore";
 import { IconButton } from "@ui/components/icon-button";
 import { Download, type LucideIcon } from "lucide-react";
 import { toast } from "sonner";
-import type { SongCardProps } from ".";
-import { generateTitleByArtist, SONG_STARTED_DOWNLOADING } from "./toastTitles";
+import type { SongCardProps } from "../song-card";
+import {
+  SONG_STARTED_DOWNLOADING,
+  generateTitleByArtist,
+} from "../utils/toastTitles";
 
 export const DownloadButton = ({
   id,

@@ -8,11 +8,11 @@ import {
   CardTitle,
 } from "@ui/components/card";
 import Image from "next/image";
-import type { SongsListProps } from "../songs-list/list";
+import type { SongsListDataProps } from "../songs-list/listData";
 import { SongCardButton } from "./songCardButton";
 
 export type SongCardProps = NonNullable<
-  SongsListProps["data"]
+  SongsListDataProps["data"]
 >["songs"][number];
 export const SongCard = (props: SongCardProps) => {
   const { id, artist, title, languages, year } = props;

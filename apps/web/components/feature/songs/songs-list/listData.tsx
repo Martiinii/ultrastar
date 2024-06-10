@@ -5,21 +5,15 @@ type SongsResponse = Awaited<
   ReturnType<ReturnType<(typeof api)["search"]>["get"]>
 >["data"];
 
-export type SongsListProps = {
+export type SongsListDataProps = {
   data: SongsResponse;
 };
-export const SongsList = ({ data }: SongsListProps) => {
+export const SongsListData = ({ data }: SongsListDataProps) => {
   if (!data || !data.songs.length) {
     return <NoSongsFound />;
   }
 
-  return (
-    <section className="flex flex-wrap gap-x-6 gap-y-10 justify-center">
-      {data.songs.map((s) => (
-        <SongCard key={s.id} {...s} />
-      ))}
-    </section>
-  );
+  return data.songs.map((s) => <SongCard key={s.id} {...s} />);
 };
 
 const NoSongsFound = () => {
