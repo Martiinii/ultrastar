@@ -1,6 +1,8 @@
 import { Container } from "@/components/container";
-import { PaginatedSongs } from "@/components/songs/songs-list";
+import { PaginatedSongs } from "@/components/feature/songs/songs-list";
+import { SongListFallback } from "@/components/feature/songs/songs-list/fallback";
 import { WebSocketListener } from "@/components/webSocketListener";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -13,14 +15,18 @@ export default function Home({ searchParams }: { searchParams: SearchParams }) {
     currentLanguages = currentLanguages.join(",");
   }
 
+  const uniqueKey = `${currentPage}|${currentSearch}|${currentLanguages}`;
+
   return (
     <Container>
-      <PaginatedSongs
-        page={currentPage}
-        search={currentSearch}
-        languages={currentLanguages}
-        searchParams={searchParams}
-      />
+      <Suspense key={uniqueKey} fallback={<SongListFallback />}>
+        <PaginatedSongs
+          page={currentPage}
+          search={currentSearch}
+          languages={currentLanguages}
+          searchParams={searchParams}
+        />
+      </Suspense>
       <WebSocketListener />
     </Container>
   );
