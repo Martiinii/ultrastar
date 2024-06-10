@@ -1,7 +1,4 @@
-"use client";
-
 import { clientApi } from "@/lib/api";
-import { Button } from "@ui/components/button";
 import { Combobox, type ComboboxData } from "@ui/components/combobox";
 import {
   Form,
@@ -11,8 +8,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@ui/components/form";
+import { IconButton } from "@ui/components/icon-button";
 import { Input } from "@ui/components/input";
 import { cn } from "@ui/lib/utils";
+import { SearchIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
@@ -88,7 +87,13 @@ export const SearchSongsForm = ({ onSubmit }: SearchSongsForm) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Search</Button>
+        <IconButton
+          type="submit"
+          className="flex mx-auto"
+          iconRight={{ icon: SearchIcon }}
+        >
+          Search songs
+        </IconButton>
       </form>
     </Form>
   );
