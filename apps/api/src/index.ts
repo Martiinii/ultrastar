@@ -9,22 +9,14 @@ import { songsRouter } from "./routers/songs";
 import { syncRouter } from "./routers/sync";
 import { wsRouter } from "./routers/ws";
 
-export const app = new Elysia({
-  prefix: "/api",
-})
+export const app = new Elysia({ prefix: "/api" })
   .use(setupPlugin)
   .use(
     swagger({
       documentation: {
-        info: {
-          title: "UltraStar API Documentation",
-          version: "1.0.0",
-        },
+        info: { title: "UltraStar API Documentation", version: "1.0.0" },
         tags: [
-          {
-            name: "Search",
-            description: "Search songs from local database",
-          },
+          { name: "Search", description: "Search songs from local database" },
           { name: "Songs", description: "Download or modify existing songs" },
           { name: "Languages", description: "Retrieve every language" },
           {
