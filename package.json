@@ -17,6 +17,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "turbo": "^2.0.3"
+    "turbo": "^2.0.9"
   }
 }
