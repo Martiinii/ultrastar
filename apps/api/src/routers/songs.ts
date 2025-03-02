@@ -1,10 +1,10 @@
 import {
-  getLyricsById,
-  getYoutubeLinksById,
+    getLyricsById,
+    getYoutubeLinksById,
 } from "@ultrastar/ultrastar-api/src/lib/data";
 import {
-  downloadYoutubeVideoFromLink,
-  searchYoutube,
+    downloadYoutubeVideoFromLink,
+    searchYoutube,
 } from "@ultrastar/youtube-api";
 import { eq } from "drizzle-orm";
 import Elysia from "elysia";
@@ -159,6 +159,7 @@ export const songsRouter = new Elysia({
             .where(eq(songTable.id, id));
 
           await rm(songDirectoryPath, { recursive: true, force: true });
+          console.log(e)
           publishMessage({
             status: "error",
             ...messageData,

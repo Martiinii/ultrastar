@@ -1,11 +1,11 @@
 import { createId } from "@paralleldrive/cuid2";
 import { relations } from "drizzle-orm";
 import {
-  blob,
-  integer,
-  primaryKey,
-  sqliteTable,
-  text,
+    blob,
+    integer,
+    primaryKey,
+    sqliteTable,
+    text,
 } from "drizzle-orm/sqlite-core";
 
 export const songTable = sqliteTable("song", {
