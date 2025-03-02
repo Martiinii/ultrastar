@@ -11,27 +11,31 @@ Packages can be found in `/packages` directory with the most notable being `ultr
 
 ## How to run this application?
 
-First, let's start with creating an account on [usdb.animux.de](https://usdb.animux.de). Go ahead and register a new account and save the credentials into `.env` file.
+Make sure you have [bun](https://bun.sh/) installed (min version `1.2.4`)
+
+Let's start with creating an account on [usdb.animux.de](https://usdb.animux.de).
+Create env file `cp apps/api/TEMPLATE.env apps/api/.env`
+Go ahead and register a new account and save the credentials into `.env` file.
 Make sure to install [yt-dlp](https://github.com/yt-dlp/yt-dlp/wiki/Installation). It is necessary for automatic video downloading.
 
 Then you need to install dependencies with `bun i` and create database using `bun db:push`
 
-Then you can run this application in development mode using `bun dev`.
+Then you can run this application in development mode using `bun dev` (not recommended for production use).
+Building and starting app:
+`bun run build` and then to start: `bun start`.
 
-> [!CAUTION]
-> I've had several issues with bun, turbo and Next.js causing memory leaks. It is caused probably because Node.js is used to run the dev server (app router currently relies on Node.js APIs that Bun does not yet implement). To circumvent this issue, you can run api using `bun dev -- filter @ultrastar/api` and web app using `cd apps/web && bun dev`.
 
 ## Why are there no songs?
 
 For now, you have to downloads songs by yourself. In the future I will upload default database file, but it is over 200MB (mostly cover images).
 To seed the database by yourself, start the application and head over to `http://localhost:3000/api/swagger`.
-Once there, head over to **Sync** and choose `/api/sync/download` and click **Test Request**, then press **Send** Button.
+Once there, head over to **Sync** and choose `/api/sync/download{page?}`. In the table under variables set page value to `1` and click **Test Request**, then press **Send** Button.
 It will cause to download every song (over 27000!). It will take several minutes depending on your machine and internet connection (it took ~20 minutes for me).
 
 > [!IMPORTANT]
-> Swagger will return timeout after some time, but it doesn't mean it isn't downloading! Once every song is downloaded, Elysia will output `🔥 Download complete` to console.
+> Swagger will return timeout after 10 seconds, but it doesn't mean it isn't downloading! Once every song is downloaded, Elysia will output `🔥 Download complete` to console.
 
-After that step is complete, head over to main page and enjoy your fresh songs.
+After that step is complete, head over to main page and enjoy your songs.
 
 ## What's inside?
 
@@ -55,40 +59,6 @@ Packages:
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/) (besides some configs, to be fixed).
 
-### Build
+## Additional info
 
-To build all apps and packages, run the following command:
-
-```sh
-bun build
-```
-
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```sh
-cd ultrastar
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+If you head over to `http://localhost:3000/connect` a QR code will be displayed. Show it to your friends to they can downloads songs from phones.
