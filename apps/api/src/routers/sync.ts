@@ -1,6 +1,6 @@
 import {
-  getCoverImage,
-  songGenerator,
+    getCoverImage,
+    songGenerator,
 } from "@ultrastar/ultrastar-api/src/lib/data";
 import { eq } from "drizzle-orm";
 import Elysia from "elysia";
@@ -9,9 +9,9 @@ import { join } from "node:path";
 import { db } from "../db";
 
 import {
-  languageTable,
-  songTable,
-  songToLanguageTable,
+    languageTable,
+    songTable,
+    songToLanguageTable,
 } from "../db/schema/songs";
 import { setupPlugin } from "../plugins/setup";
 
@@ -21,8 +21,8 @@ export const syncRouter = new Elysia({
   tags: ["Sync"],
 })
   .use(setupPlugin)
-  .post("/download", async () => {
-    for await (const page of songGenerator()) {
+  .post("/download/:page?", async ({params: {"page?": pageStart}}) => {
+    for await (const page of songGenerator(pageStart ? Number(pageStart) : undefined)) {
       const { songs } = page;
 
       for (const song of songs) {
