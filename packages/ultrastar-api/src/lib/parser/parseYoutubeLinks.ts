@@ -9,7 +9,7 @@ export const parseYoutubeLinks = (html: string) => {
   const comments = parseComments(html)
     .map((c) =>
       c.match(
-        /<td>(\d+\.\d+\.\d+) - (\d+:\d+)[\s\S]*src="(.*?(?=youtu\.?be).*?)"/m
+        /<td>(\d+\.\d+\.\d+) - (\d+:\d+)[\s\S]*src="http(.*?(?=youtu\.?be).*?)"/m
       )
     )
     .map(parseYoutubeLinkFromComment)
