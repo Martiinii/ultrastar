@@ -6,6 +6,7 @@
   "types": "src/index.ts",
   "scripts": {
     "dev": "bun --watch src/index.ts",
+    "start": "bun src/index.ts",
     "db:generate": "bunx drizzle-kit generate",
     "db:migrate": "bun src/db/migrate.ts",
     "db:drop": "bunx drizzle-kit drop",
