@@ -84,9 +84,7 @@ export const ResponsiveDialog = ({
   );
 };
 
-type ResponsiveDialogCloseProps = {
-  children: React.ReactNode;
-};
+type ResponsiveDialogCloseProps = { children: React.ReactNode };
 export const ResponsiveDialogClose = ({
   children,
 }: ResponsiveDialogCloseProps) => {

@@ -1,24 +1,24 @@
-import { generateSearchParamsString } from "@/utils/generateSearchParamsString";
+"use client";
+import { searchParams } from "@/components/searchParams";
 import {
   Pagination,
+  PaginationButton,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
 } from "@ui/components/pagination";
+import { useQueryState } from "nuqs";
+import { useTransition } from "react";
 
 const SIBLINGS = 1;
 const DEFAULT_PAGE_ITEMS = 1 + SIBLINGS * 2 + 4;
-type PagesProps = {
-  currentPage: number;
-  totalPages: number;
-  searchParams?: SearchParams;
-};
-export const Pages = ({
-  currentPage,
-  totalPages,
-  searchParams,
-}: PagesProps) => {
+type PagesProps = { totalPages: number };
+export const Pages = ({ totalPages }: PagesProps) => {
+  const [isLoading, startTransition] = useTransition();
+  const [page, setPage] = useQueryState(
+    "page",
+    searchParams.page.withOptions({ startTransition, shallow: false })
+  );
   const pageItemsCount = Math.min(DEFAULT_PAGE_ITEMS, totalPages);
   if (pageItemsCount <= 1) return null;
 
@@ -26,15 +26,14 @@ export const Pages = ({
 
   const enableCursor =
     pageItemsCount == DEFAULT_PAGE_ITEMS
-      ? currentPage >= middlePosition &&
-        currentPage - 1 <= totalPages - middlePosition
+      ? page >= middlePosition && page - 1 <= totalPages - middlePosition
       : false;
 
   const selectedPosition = enableCursor
     ? middlePosition
-    : currentPage <= middlePosition
-      ? currentPage
-      : currentPage - totalPages + pageItemsCount;
+    : page <= middlePosition
+      ? page
+      : page - totalPages + pageItemsCount;
 
   return (
     <Pagination>
@@ -42,9 +41,8 @@ export const Pages = ({
         {Array.from(Array(pageItemsCount)).map((_, i) => {
           const distance = i + 1 - selectedPosition;
           const isDotted =
-            (i == 1 && currentPage + distance != 2) ||
-            (i == pageItemsCount - 2 &&
-              currentPage + distance != totalPages - 1);
+            (i == 1 && page + distance != 2) ||
+            (i == pageItemsCount - 2 && page + distance != totalPages - 1);
 
           const pageNumber =
             i == 0
@@ -55,22 +53,23 @@ export const Pages = ({
                   ? Math.min(
                       Math.max(
                         1,
-                        currentPage + (pageItemsCount - 2) * Math.sign(distance)
+                        page + (pageItemsCount - 2) * Math.sign(distance)
                       ),
                       totalPages
                     )
-                  : currentPage + distance;
+                  : page + distance;
 
           const display = isDotted ? <PaginationEllipsis /> : pageNumber;
 
-          const href = generateSearchParamsString(searchParams, {
-            page: pageNumber.toString(),
-          });
           return (
             <PaginationItem key={i}>
-              <PaginationLink href={href} isActive={i + 1 === selectedPosition}>
+              <PaginationButton
+                onClick={() => setPage(pageNumber)}
+                isActive={i + 1 === selectedPosition}
+                disabled={isLoading}
+              >
                 {display}
-              </PaginationLink>
+              </PaginationButton>
             </PaginationItem>
           );
         })}

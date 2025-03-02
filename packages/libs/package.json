@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "src/index.ts",
   "devDependencies": {
-    "bun-types": "latest",
+    "bun-types": "^1.2.4",
     "@ultrastar/api": "workspace:*",
     "@ultrastar/ts-config": "workspace:*",
     "@ultrastar/types": "workspace:*"

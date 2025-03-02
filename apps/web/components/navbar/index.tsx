@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Logo } from "../logo";
 import { SearchSongModal } from "../modals/searchSongModal";
 import { ThemeToggle } from "../themeToggle";
@@ -10,7 +11,10 @@ export const Navbar = () => {
           <Logo />
         </div>
         <div className="flex flex-1 items-center justify-between md:justify-end gap-2">
-          <SearchSongModal />
+          <Suspense>
+            <SearchSongModal />
+          </Suspense>
+
           <ThemeToggle />
         </div>
       </div>

@@ -1,30 +1,41 @@
 "use client";
 
-import { useMergeSearchParams } from "@/hooks/use-merge-search-params";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useQueryState } from "nuqs";
+import { useState, useTransition } from "react";
 import {
   SearchSongsForm,
   type SearchSongsFormSchema,
 } from "../forms/searchSongsForm";
 import { SearchButton } from "../navbar/searchButton";
 import { ResponsiveDialog } from "../responsiveDialog";
+import { searchParams } from "../searchParams";
 
 export const SearchSongModal = () => {
-  const { createQueryParams } = useMergeSearchParams();
-  const router = useRouter();
+  const [, startTransition] = useTransition();
+  const [, setPage] = useQueryState(
+    "page",
+    searchParams.page.withOptions({ startTransition, shallow: false })
+  );
+  const [search, setSearch] = useQueryState(
+    "search",
+    searchParams.search.withOptions({ startTransition, shallow: false })
+  );
+  const [languages, setLanguages] = useQueryState(
+    "languages",
+    searchParams.languages.withOptions({ startTransition, shallow: false })
+  );
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSearch = ({ search, languages }: SearchSongsFormSchema) => {
+  const handleSearch = ({
+    search: newSearch,
+    languages: newLanguages,
+  }: SearchSongsFormSchema) => {
     setIsOpen(false);
 
-    const queryParams = createQueryParams(
-      ["search", search],
-      ["language", languages]
-    );
-    queryParams.delete("page");
-    router.push("/?" + queryParams.toString());
+    setSearch(newSearch);
+    setLanguages(newLanguages);
+    setPage(1);
   };
 
   return (
@@ -37,7 +48,11 @@ export const SearchSongModal = () => {
         description: "Search and filter based on the criteria provided",
       }}
     >
-      <SearchSongsForm onSubmit={handleSearch} />
+      <SearchSongsForm
+        onSubmit={handleSearch}
+        search={search}
+        languages={languages}
+      />
     </ResponsiveDialog>
   );
 };

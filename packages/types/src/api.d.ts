@@ -38,4 +38,4 @@ type YoutubeLink = {
   link: string;
 };
 
-type SearchParams = { [key: string]: string | string[] } | undefined;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>

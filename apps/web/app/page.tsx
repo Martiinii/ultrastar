@@ -1,33 +1,27 @@
 import { Container } from "@/components/container";
-import { PaginatedSongs } from "@/components/feature/songs/songs-list";
+import { SongsListRenderer } from "@/components/feature/songs/songs-list";
 import { SongListFallback } from "@/components/feature/songs/songs-list/fallback";
-import { WebSocketListener } from "@/components/webSocketListener";
+import { searchParamsCache } from "@/components/searchParams";
+import { type SearchParams } from "nuqs";
 import { Suspense } from "react";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  await searchParamsCache.parse(searchParams);
+  const { page, search, languages } = searchParamsCache.all();
 
-export default function Home({ searchParams }: { searchParams: SearchParams }) {
-  const currentPage = Number(searchParams?.["page"]) || 1;
-  const currentSearch = searchParams?.["search"]?.toString() || "";
-  let currentLanguages = searchParams?.["language"] ?? "";
-  if (Array.isArray(currentLanguages)) {
-    currentLanguages = currentLanguages.join(",");
-  }
-
-  const uniqueKey = `${currentPage}|${currentSearch}|${currentLanguages}`;
+  const uniqueKey = `${page}|${search}|${languages.join(",")}`;
 
   return (
     <Container>
-      <Suspense key={uniqueKey} fallback={<SongListFallback />}>
-        <PaginatedSongs
-          page={currentPage}
-          search={currentSearch}
-          languages={currentLanguages}
-          searchParams={searchParams}
-        />
-      </Suspense>
-      <WebSocketListener />
+      <div className="space-y-10">
+        <Suspense key={uniqueKey} fallback={<SongListFallback />}>
+          <SongsListRenderer />
+        </Suspense>
+      </div>
     </Container>
   );
 }

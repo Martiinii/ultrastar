@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { cn } from "@ui/lib/utils";
 import Link from "next/link";
-import { buttonVariants, type ButtonProps } from "./button";
+import { Button, buttonVariants, type ButtonProps } from "./button";
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
@@ -35,9 +35,7 @@ const PaginationItem = React.forwardRef<
 ));
 PaginationItem.displayName = "PaginationItem";
 
-type PaginationLinkProps = {
-  isActive?: boolean;
-} & Pick<ButtonProps, "size"> &
+type PaginationLinkProps = { isActive?: boolean } & Pick<ButtonProps, "size"> &
   React.ComponentProps<typeof Link>;
 
 const PaginationLink = ({
@@ -49,10 +47,7 @@ const PaginationLink = ({
   <Link
     aria-current={isActive ? "page" : undefined}
     className={cn(
-      buttonVariants({
-        variant: isActive ? "outline" : "ghost",
-        size,
-      }),
+      buttonVariants({ variant: isActive ? "outline" : "ghost", size }),
       className
     )}
     {...props}
@@ -107,8 +102,26 @@ const PaginationEllipsis = ({
 );
 PaginationEllipsis.displayName = "PaginationEllipsis";
 
+type PaginationButtonProps = { isActive?: boolean } & ButtonProps;
+const PaginationButton = ({
+  className,
+  isActive,
+  size = "icon",
+  ...props
+}: PaginationButtonProps) => (
+  <Button
+    aria-current={isActive ? "page" : undefined}
+    variant={isActive ? "outline" : "ghost"}
+    size={size}
+    className={className}
+    {...props}
+  />
+);
+PaginationButton.displayName = "PaginationButton";
+
 export {
   Pagination,
+  PaginationButton,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,

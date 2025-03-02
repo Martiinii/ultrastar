@@ -12,7 +12,6 @@ import { IconButton } from "@ui/components/icon-button";
 import { Input } from "@ui/components/input";
 import { cn } from "@ui/lib/utils";
 import { SearchIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 const getAvailableLanguages = async (): Promise<ComboboxData[]> => {
@@ -30,22 +29,20 @@ const getAvailableLanguages = async (): Promise<ComboboxData[]> => {
   );
 };
 
-export type SearchSongsFormSchema = {
-  languages: string[];
-  search: string;
-};
+export type SearchSongsFormSchema = { languages: string[]; search: string };
 
-type SearchSongsForm = {
+type SearchSongsFormProps = {
   onSubmit: (data: SearchSongsFormSchema) => void;
+  search: string;
+  languages: string[];
 };
-export const SearchSongsForm = ({ onSubmit }: SearchSongsForm) => {
-  const searchParams = useSearchParams();
-
+export const SearchSongsForm = ({
+  onSubmit,
+  search,
+  languages,
+}: SearchSongsFormProps) => {
   const form = useForm<SearchSongsFormSchema>({
-    defaultValues: {
-      languages: searchParams.getAll("language") ?? [],
-      search: searchParams.get("search") ?? "",
-    },
+    defaultValues: { languages, search },
   });
 
   return (

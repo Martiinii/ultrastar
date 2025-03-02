@@ -34,7 +34,7 @@ const SCORE_CONTINUE_MATCH = 1,
   // 1000 characters are inserted between matches.
   PENALTY_CASE_MISMATCH = 0.9999,
   // Match higher for letters closer to the beginning of the word
-  PENALTY_DISTANCE_FROM_START = 0.9,
+  //   PENALTY_DISTANCE_FROM_START = 0.9,
   // If the word has more characters than the user typed, it should
   // be penalised slightly.
   //
@@ -82,15 +82,16 @@ function commandScoreInner(
     spaceBreaks: RegExpMatchArray | null;
 
   while (index >= 0) {
-    score = commandScoreInner(
-      string,
-      abbreviation,
-      lowerString,
-      lowerAbbreviation,
-      index + 1,
-      abbreviationIndex + 1,
-      memoizedResults
-    );
+    score =
+      commandScoreInner(
+        string,
+        abbreviation,
+        lowerString,
+        lowerAbbreviation,
+        index + 1,
+        abbreviationIndex + 1,
+        memoizedResults
+      ) ?? 0;
     if (score > highScore) {
       if (index === stringIndex) {
         score *= SCORE_CONTINUE_MATCH;
@@ -131,15 +132,16 @@ function commandScoreInner(
         lowerString.charAt(index - 1) !==
           lowerAbbreviation.charAt(abbreviationIndex))
     ) {
-      transposedScore = commandScoreInner(
-        string,
-        abbreviation,
-        lowerString,
-        lowerAbbreviation,
-        index + 1,
-        abbreviationIndex + 2,
-        memoizedResults
-      );
+      transposedScore =
+        commandScoreInner(
+          string,
+          abbreviation,
+          lowerString,
+          lowerAbbreviation,
+          index + 1,
+          abbreviationIndex + 2,
+          memoizedResults
+        ) ?? 0;
 
       if (transposedScore * SCORE_TRANSPOSITION > score) {
         score = transposedScore * SCORE_TRANSPOSITION;
@@ -175,13 +177,15 @@ export function commandScore(
     aliases && aliases.length > 0
       ? `${string + " " + aliases.join(" ")}`
       : string;
-  return commandScoreInner(
-    string,
-    abbreviation,
-    formatInput(string),
-    formatInput(abbreviation),
-    0,
-    0,
-    {}
+  return (
+    commandScoreInner(
+      string,
+      abbreviation,
+      formatInput(string),
+      formatInput(abbreviation),
+      0,
+      0,
+      {}
+    ) ?? 0
   );
 }

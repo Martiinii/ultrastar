@@ -29,7 +29,7 @@
     "@libsql/client": "^0.6.1",
     "@ultrastar/ts-config": "workspace:*",
     "@ultrastar/types": "workspace:*",
-    "bun-types": "latest",
+    "bun-types": "^1.2.4",
     "drizzle-kit": "^0.22.0"
   }
 }
