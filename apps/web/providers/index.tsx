@@ -1,4 +1,4 @@
-import type { ThemeProviderProps } from "next-themes/dist/types";
+import type { ThemeProviderProps } from "next-themes";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ThemeProvider } from "./themeProvider";
 
@@ -7,7 +7,9 @@ type ProvidersProps = {
   theme?: Omit<ThemeProviderProps, "children">;
 };
 export const Providers = ({ children, theme }: ProvidersProps) => {
-  return <NuqsAdapter>
-    <ThemeProvider {...theme}>{children}</ThemeProvider>
-  </NuqsAdapter>;
+  return (
+    <NuqsAdapter>
+      <ThemeProvider {...theme}>{children}</ThemeProvider>
+    </NuqsAdapter>
+  );
 };
