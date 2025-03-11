@@ -35,10 +35,15 @@ export const DownloadButton = ({
         songsStore.removeDownloading(id);
       }
 
-      return toast.error(res.error.value, {
-        id,
-        description: null,
-      });
+      return toast.error(
+        typeof res.error.value === "string"
+          ? res.error.value
+          : "Unknown error occured",
+        {
+          id,
+          description: null,
+        }
+      );
     }
   };
 
