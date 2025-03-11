@@ -1,15 +1,13 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   transpilePackages: ["@ultrastar/ui"],
-  experimental: {
-    proxyTimeout: 0,
-  },
-  rewrites: async () => {
-    return [
+  images: {
+    remotePatterns: [
       {
-        source: "/api/:path*",
-        destination: "http://localhost:3001/api/:path*",
+        protocol: "http",
+        hostname: "localhost",
+        port: "3001",
       },
-    ];
+    ],
   },
 };
