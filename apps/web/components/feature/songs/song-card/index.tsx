@@ -21,7 +21,7 @@ export const SongCard = (props: SongCardProps) => {
       <div className="pb-4">
         <AspectRatio ratio={1} className="bg-muted rounded-t-lg relative">
           <Image
-            src={`/api/songs/${id}/cover`}
+            src={`http://localhost:3001/api/songs/${id}/cover`}
             alt={`Album cover of ${artist} - ${title}`}
             fill
             sizes="300px"
