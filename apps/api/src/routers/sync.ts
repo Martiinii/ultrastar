@@ -1,17 +1,16 @@
 import {
-    getCoverImage,
-    songGenerator,
+  getCoverImage,
+  songGenerator,
 } from "@ultrastar/ultrastar-api/src/lib/data";
 import { eq } from "drizzle-orm";
 import Elysia from "elysia";
 import { readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { db } from "../db";
-
 import {
-    languageTable,
-    songTable,
-    songToLanguageTable,
+  languageTable,
+  songTable,
+  songToLanguageTable,
 } from "../db/schema/songs";
 import { setupPlugin } from "../plugins/setup";
 
@@ -21,8 +20,14 @@ export const syncRouter = new Elysia({
   tags: ["Sync"],
 })
   .use(setupPlugin)
-  .post("/download/:page?", async ({params: {"page?": pageStart}}) => {
-    for await (const page of songGenerator(pageStart ? Number(pageStart) : undefined)) {
+  .post("/download/:page?", async function* ({ params: { page: pageStart } }) {
+    let counter = 0;
+
+    console.log("Start downloading songs metadata...");
+    for await (const { page, totalPages } of songGenerator(
+      pageStart ? Number(pageStart) : undefined
+    )) {
+      counter++;
       const { songs } = page;
 
       for (const song of songs) {
@@ -79,8 +84,20 @@ export const syncRouter = new Elysia({
           });
         } catch (e) {
           console.warn(e);
+          throw e;
         }
       }
+
+      const progress = Math.floor((counter / totalPages) * 100);
+      console.log(
+        `Page ${counter} of ${totalPages} total pages | ${progress}%`
+      );
+
+      yield {
+        currentPage: counter,
+        totalPages,
+        progress,
+      };
     }
 
     console.log("🔥 Download complete");

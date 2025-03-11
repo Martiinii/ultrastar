@@ -7,13 +7,13 @@ import { scrapSearchPage } from "../scrapper/searchPage";
  */
 export const songGenerator = async function* (initialPage = 1) {
   const firstPage = await getSongsFromPage(initialPage);
-  yield firstPage;
-
   const totalPages = firstPage.totalPages;
 
-  for (let i = initialPage+1; i <= totalPages; i++) {
+  yield { page: firstPage, totalPages };
+
+  for (let i = initialPage + 1; i <= totalPages; i++) {
     const page = await getSongsFromPage(i);
-    yield page;
+    yield { page, totalPages };
   }
 };
 
