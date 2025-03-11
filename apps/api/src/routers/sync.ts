@@ -23,10 +23,10 @@ export const syncRouter = new Elysia({
   .post("/download/:page?", async function* ({ params: { page: pageStart } }) {
     let counter = 0;
 
+    const pageStartNum = pageStart ? Number(pageStart) : 1;
+
     console.log("Start downloading songs metadata...");
-    for await (const { page, totalPages } of songGenerator(
-      pageStart ? Number(pageStart) : undefined
-    )) {
+    for await (const { page, totalPages } of songGenerator(pageStartNum)) {
       counter++;
       const { songs } = page;
 
@@ -95,7 +95,7 @@ export const syncRouter = new Elysia({
 
       yield {
         currentPage: counter,
-        totalPages,
+        totalPages: totalPages - pageStartNum + 1,
         progress,
       };
     }
