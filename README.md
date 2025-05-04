@@ -28,7 +28,7 @@ Building and starting app:
 ## Why are there no songs?
 
 For now, you have to downloads songs by yourself. In the future I will upload default database file, but it is over 200MB (mostly cover images).
-To seed the database by yourself, start the application and head over to `http://localhost:3000/api/swagger`.
+To seed the database by yourself, start the application and head over to `http://localhost:3001/api/swagger`.
 Once there, head over to **Sync** and choose `/api/sync/download{page?}`. In the table under variables set page value to `1` and click **Test Request**, then press **Send** Button.
 It will cause to download every song (over 27000!). It will take several minutes depending on your machine and internet connection (it took ~20 minutes for me).
 
