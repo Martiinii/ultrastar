@@ -1,6 +1,6 @@
 "use client";
 
-import { clientApi } from "@/lib/api";
+import { clientApi } from "@/lib/client-api";
 import { useSongsStore } from "@/store/useSongsStore";
 import { IconButton } from "@ui/components/icon-button";
 import { Download, type LucideIcon } from "lucide-react";
@@ -26,7 +26,7 @@ export const DownloadButton = ({
     toast.loading(SONG_STARTED_DOWNLOADING, { description, id });
     songsStore.addDownloading(id);
 
-    const res = await clientApi.songs({ id }).download.get();
+    const res = await clientApi().songs({ id }).download.get();
 
     if (res.error) {
       if (res.error.status === 409) {

@@ -1,4 +1,4 @@
-import { clientApi } from "@/lib/api";
+import { clientApi } from "@/lib/client-api";
 import { Combobox, type ComboboxData } from "@ui/components/combobox";
 import {
   Form,
@@ -15,7 +15,7 @@ import { SearchIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 const getAvailableLanguages = async (): Promise<ComboboxData[]> => {
-  const { data } = await clientApi.languages.index.get();
+  const { data } = await clientApi().languages.index.get();
   return (
     data?.map((d) => ({
       value: d.id,

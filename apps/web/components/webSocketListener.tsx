@@ -1,6 +1,6 @@
 "use client";
 
-import { clientApi } from "@/lib/api";
+import { clientApi } from "@/lib/client-api";
 import { useSongsStore } from "@/store/useSongsStore";
 import { memo, useEffect } from "react";
 import { toast } from "sonner";
@@ -15,7 +15,7 @@ export const WebSocketListener = memo(() => {
     useSongsStore();
 
   useEffect(() => {
-    const ws = clientApi.ws.index.subscribe();
+    const ws = clientApi().ws.index.subscribe();
 
     ws.subscribe(({ data }) => {
       switch (data.status) {

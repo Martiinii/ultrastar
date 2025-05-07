@@ -1,6 +1,6 @@
 "use client";
 
-import { clientApi } from "@/lib/api";
+import { clientApi } from "@/lib/client-api";
 import { Button } from "@ui/components/button";
 import { Progress } from "@ui/components/progress";
 import { useState } from "react";
@@ -13,7 +13,7 @@ export const DownloadUSDBSongsForm = () => {
   const handleDownload = async () => {
     setIsPending(true);
 
-    const { error, data } = await clientApi.sync.download({ page: 1 }).post();
+    const { error, data } = await clientApi().sync.download({ page: 1 }).post();
 
     if (error) {
       setIsPending(false);
